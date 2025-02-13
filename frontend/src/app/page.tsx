@@ -1,9 +1,5 @@
 import Link from "next/link"
 
-function example() {
-  console.log("Click")
-}
-
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
