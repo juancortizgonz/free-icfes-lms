@@ -6,8 +6,8 @@ export default function Home() {
       <h1 className="text-4l font-bold">¡Bienvenido al LMS freeICFES!</h1>
       <p className="mt-4 text-lg">Tu plataforma gratuita para prepararte para el ICFES.</p>
       <nav className="mt-4">
-        <Link href="/dashboard" className="text-blue-500 hover:underline">
-          Ir al Dashboard
+        <Link href="/register" className="text-blue-500 hover:underline">
+          Regístrate aquí
         </Link>
       </nav>
     </main>
