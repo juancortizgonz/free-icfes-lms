@@ -1,6 +1,7 @@
 import express from "express"
 import { registerUser, loginUser } from "../controllers/user.controller.js"
 import { check } from "express-validator"
+import { authenticateToken } from "../middlewares/authMiddleware.js"
 
 const userRoutes = express.Router()
 
@@ -23,6 +24,14 @@ userRoutes.post(
         check("password", "La contraseña es obligatoria").not().isEmpty()
     ],
     loginUser
+)
+
+userRoutes.get(
+    "/profile",
+    authenticateToken,
+    (req, res) => {
+        res.json(req.user)
+    }
 )
 
 export default userRoutes
