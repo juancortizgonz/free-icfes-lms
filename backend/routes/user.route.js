@@ -1,5 +1,5 @@
 import express from "express"
-import { registerUser, loginUser } from "../controllers/user.controller.js"
+import { registerUser, loginUser, refreshToken } from "../controllers/user.controller.js"
 import { check } from "express-validator"
 import { authenticateToken } from "../middlewares/authMiddleware.js"
 
@@ -24,6 +24,11 @@ userRoutes.post(
         check("password", "La contraseña es obligatoria").not().isEmpty()
     ],
     loginUser
+)
+
+userRoutes.post(
+    "/refresh-token",
+    refreshToken
 )
 
 userRoutes.get(

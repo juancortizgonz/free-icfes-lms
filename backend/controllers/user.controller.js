@@ -1,5 +1,11 @@
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
 import { createUser, getUserByEmail, verifyCredentials } from "../services/user.service.js"
 import { generateAccessToken, generateRefreshToken } from "../utils/authUtils.js"
+
+dotenv.config()
+
+const JWT_SECRET = process.env.JWT_SECRET_KEY
 
 export const registerUser = async (req, res) => {
     try {
@@ -37,4 +43,19 @@ export const loginUser = async (req, res) => {
     } catch(err) {
         return res.status(401).json({ message: err.message })
     }
+}
+
+export const refreshToken = async (req, res) => {
+    const { token } = req.body
+    if (!token) return res.status(401).json({ message: "No se ha enviado un token" })
+    
+        jwt.verify(
+            token, 
+            JWT_SECRET, 
+            (err, user) => {
+                if (err) return res.status(403).json({ message: "Token no válido" })
+                const accessToken = generateAccessToken(user)
+                return res.status(200).json({ accessToken })
+            }
+        )
 }
