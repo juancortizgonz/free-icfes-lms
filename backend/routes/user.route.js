@@ -1,5 +1,5 @@
 import express from "express"
-import { registerUser } from "../controllers/user.controller.js"
+import { registerUser, loginUser } from "../controllers/user.controller.js"
 import { check } from "express-validator"
 
 const userRoutes = express.Router()
@@ -14,6 +14,15 @@ userRoutes.post(
         check("password", "La contraseña es obligatoria").not().isEmpty()
     ], 
     registerUser
+)
+
+userRoutes.post(
+    "/login",
+    [
+        check("email", "El email es obligatorio").not().isEmpty(),
+        check("password", "La contraseña es obligatoria").not().isEmpty()
+    ],
+    loginUser
 )
 
 export default userRoutes

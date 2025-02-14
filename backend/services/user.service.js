@@ -1,13 +1,27 @@
 import bcrypt from "bcryptjs"
 import User from "../models/user.model.js"
+import { encryptPassword, comparePasswords } from "../utils/authUtils.js"
 
 export const createUser = async (userData) => {
-    // Encrypt the password with default salt rounds
-    const hashedPassword = bcrypt.hashSync(userData.password)
+    const hashedPassword = encryptPassword(userData.password)
     const user = await User.create({
         ...userData,
         password: hashedPassword
     })
+    return user
+}
+
+export const verifyCredentials = async (email, password) => {
+    const user = await getUserByEmail(email)
+    if (!user) {
+        throw new Error("El usuario no existe en la base de datos")
+    }
+
+    const isPasswordValid = comparePasswords(password, user.password)
+    if (!isPasswordValid) {
+        throw new Error("La contraseña es incorrecta")
+    }
+
     return user
 }
 
